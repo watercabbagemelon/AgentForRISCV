@@ -1,1 +1,3 @@
+# 复旦大学EDA系统软件分析及设计方法学课程作业
 
+本项目基于Claude code实现了一个设计RISCV处理器的agent
