@@ -1,0 +1,17 @@
+[ADD] a=0x00000005 b=0x00000003 op=0 | result=0x00000008(exp=0x00000008) zero=0(exp=0) -> PASS
+[ADD_ZERO] a=0x00000000 b=0x00000000 op=0 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[ADD_OVERFLOW] a=0xFFFFFFFF b=0x00000001 op=0 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[SUB] a=0x0000000A b=0x00000003 op=1 | result=0x00000007(exp=0x00000007) zero=0(exp=0) -> PASS
+[SUB_ZERO] a=0x00000005 b=0x00000005 op=1 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[SUB_NEG] a=0x00000003 b=0x0000000A op=1 | result=0xFFFFFFF9(exp=0xFFFFFFF9) zero=0(exp=0) -> PASS
+[AND] a=0xFF00FF00 b=0x0F0F0F0F op=2 | result=0x0F000F00(exp=0x0F000F00) zero=0(exp=0) -> PASS
+[AND_ZERO] a=0xAAAAAAAA b=0x55555555 op=2 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[OR] a=0xFF000000 b=0x00FF0000 op=3 | result=0xFFFF0000(exp=0xFFFF0000) zero=0(exp=0) -> PASS
+[OR_ZERO] a=0x00000000 b=0x00000000 op=3 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[XOR] a=0xFFFFFFFF b=0xFFFFFFFF op=4 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[XOR_BASIC] a=0xA5A5A5A5 b=0x5A5A5A5A op=4 | result=0xFFFFFFFF(exp=0xFFFFFFFF) zero=0(exp=0) -> PASS
+[SLT_TRUE] a=0xFFFFFFFF b=0x00000000 op=5 | result=0x00000001(exp=0x00000001) zero=0(exp=0) -> PASS
+[SLT_FALSE] a=0x00000005 b=0x00000003 op=5 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+[SLT_EQUAL] a=0x00000007 b=0x00000007 op=5 | result=0x00000000(exp=0x00000000) zero=1(exp=1) -> PASS
+
+=== Total: 15, PASS: 15, FAIL: 0 ===

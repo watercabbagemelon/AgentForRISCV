@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sbt \"run --target-dir generated\")",
+      "Bash(sbt run:*)",
+      "Bash(find D:/Codes/EDA_project/Project1 -name *.sv -o -name *.v)",
+      "Bash(verilator:*)",
+      "Bash(bash .claude/hooks/pre_run_clean.sh 2>&1)",
+      "Bash(sbt \"runMain ALU\")",
+      "Bash(bash D:/Codes/EDA_project/Project1/.claude/hooks/post_verilog_generate.sh 2>&1)",
+      "Bash(perl -e \"use Pod::Usage\")",
+      "Bash(pacman -S perl-pod-usage)",
+      "Bash(cpan Pod::Usage)",
+      "Bash(pacman -S perl)",
+      "Bash(pacman -S mingw-w64-ucrt-x86_64-perl)",
+      "Bash(PERL5LIB=/d/msys/ucrt64/lib/perl5/core_perl:/d/msys/ucrt64/lib/perl5/vendor_perl /d/msys/ucrt64/bin/perl /d/msys/ucrt64/bin/verilator --version 2>&1)",
+      "Bash(PERL5LIB=/d/msys/ucrt64/lib/perl5/core_perl:/d/msys/ucrt64/lib/perl5/vendor_perl /d/msys/ucrt64/bin/perl /d/msys/ucrt64/bin/verilator --cc --exe --build generated/top.sv testbench/alu_tb.cpp --top-module ALU -o sim_alu --Mdir sim/obj_dir)",
+      "Bash(./sim/obj_dir/sim_alu)"
+    ]
+  }
+}
