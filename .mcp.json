@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "orfs-agent": {
+      "command": "node",
+      "args": ["D:/Codes/EDA_project/Project2/mcp_server/src/index.js"]
+    }
+  }
+}
