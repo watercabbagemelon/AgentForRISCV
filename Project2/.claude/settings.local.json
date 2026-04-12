@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__orfs-agent__read_file",
+      "mcp__orfs-agent__write_file",
+      "mcp__orfs-agent__list_files_container",
+      "Bash(docker exec orfs-agent:*)",
+      "mcp__orfs-agent__read_container_file",
+      "Bash(docker cp:*)",
+      "mcp__orfs-agent__run_stage",
+      "mcp__orfs-agent__get_metrics"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "orfs-agent"
+  ]
+}
