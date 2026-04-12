@@ -18,3 +18,5 @@ claude code自行编写testbench
 
 最后返回正确的RTL代码
 
+*修改：*
+对hooks配置文件进行了修改，修改部分文件路径

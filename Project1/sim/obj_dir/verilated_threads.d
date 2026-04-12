@@ -1,8 +1,7 @@
-verilated_threads.o: \
- D:/msys/ucrt64/share/verilator/include/verilated_threads.cpp \
- D:/msys/ucrt64/share/verilator/include/verilatedos.h \
- D:/msys/ucrt64/share/verilator/include/verilated_threads.h \
- D:/msys/ucrt64/share/verilator/include/verilated.h \
- D:/msys/ucrt64/share/verilator/include/verilated_config.h \
- D:/msys/ucrt64/share/verilator/include/verilated_types.h \
- D:/msys/ucrt64/share/verilator/include/verilated_funcs.h
+verilated_threads.o: /usr/share/verilator/include/verilated_threads.cpp \
+ /usr/share/verilator/include/verilatedos.h \
+ /usr/share/verilator/include/verilated_threads.h \
+ /usr/share/verilator/include/verilated.h \
+ /usr/share/verilator/include/verilated_config.h \
+ /usr/share/verilator/include/verilated_types.h \
+ /usr/share/verilator/include/verilated_funcs.h

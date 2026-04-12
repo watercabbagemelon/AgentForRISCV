@@ -10,7 +10,7 @@
 
 class VALU__Syms;
 
-class alignas(VL_CACHE_LINE_BYTES) VALU___024root final {
+class alignas(VL_CACHE_LINE_BYTES) VALU___024root final : public VerilatedModule {
   public:
 
     // DESIGN SPECIFIC STATE
@@ -19,21 +19,22 @@ class alignas(VL_CACHE_LINE_BYTES) VALU___024root final {
     VL_IN8(io_op,2,0);
     VL_OUT8(io_zero,0,0);
     CData/*0:0*/ __VstlFirstIteration;
-    CData/*0:0*/ __VstlPhaseResult;
     CData/*0:0*/ __VicoFirstIteration;
-    CData/*0:0*/ __VicoPhaseResult;
+    CData/*0:0*/ __VactContinue;
     VL_IN(io_a,31,0);
     VL_IN(io_b,31,0);
     VL_OUT(io_result,31,0);
-    VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
-    VlUnpacked<QData/*63:0*/, 1> __VicoTriggered;
+    IData/*31:0*/ __VactIterCount;
+    VlTriggerVec<1> __VstlTriggered;
+    VlTriggerVec<1> __VicoTriggered;
+    VlTriggerVec<0> __VactTriggered;
+    VlTriggerVec<0> __VnbaTriggered;
 
     // INTERNAL VARIABLES
-    VALU__Syms* vlSymsp;
-    const char* vlNamep;
+    VALU__Syms* const vlSymsp;
 
     // CONSTRUCTORS
-    VALU___024root(VALU__Syms* symsp, const char* namep);
+    VALU___024root(VALU__Syms* symsp, const char* v__name);
     ~VALU___024root();
     VL_UNCOPYABLE(VALU___024root);
 

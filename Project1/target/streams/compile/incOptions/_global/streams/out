@@ -1,2 +1,23 @@
-[debug] Created transactional ClassFileManager with tempDir = D:\Codes\EDA_project\Project1\target\scala-2.13\classes.bak
-[debug] Removing the temporary directory used for backing up class files: D:\Codes\EDA_project\Project1\target\scala-2.13\classes.bak
+[debug] Created transactional ClassFileManager with tempDir = /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes.bak
+[debug] About to delete class files:
+[debug] 	ALU.class
+[debug] 	ALU$delayedInit$body.class
+[debug] 	ALU$$anon$1.class
+[debug] 	ALU$.class
+[debug] We backup class files:
+[debug] 	ALU.class
+[debug] 	ALU$delayedInit$body.class
+[debug] 	ALU$$anon$1.class
+[debug] 	ALU$.class
+[debug] Created transactional ClassFileManager with tempDir = /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes.bak
+[debug] About to delete class files:
+[debug] We backup class files:
+[debug] Registering generated classes:
+[debug] 	ALU.class
+[debug] 	ALUMain$.class
+[debug] 	ALUMain$delayedInit$body.class
+[debug] 	ALUOp.class
+[debug] 	ALUOp$.class
+[debug] 	ALUMain.class
+[debug] 	ALU$$anon$1.class
+[debug] Removing the temporary directory used for backing up class files: /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes.bak

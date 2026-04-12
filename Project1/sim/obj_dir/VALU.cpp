@@ -53,11 +53,11 @@ void VALU::eval_step() {
 #endif  // VL_DEBUG
     vlSymsp->__Vm_deleter.deleteAll();
     if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) {
+        vlSymsp->__Vm_didInit = true;
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial\n"););
         VALU___024root___eval_static(&(vlSymsp->TOP));
         VALU___024root___eval_initial(&(vlSymsp->TOP));
         VALU___024root___eval_settle(&(vlSymsp->TOP));
-        vlSymsp->__Vm_didInit = true;
     }
     VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
     VALU___024root___eval(&(vlSymsp->TOP));
@@ -70,7 +70,7 @@ void VALU::eval_step() {
 bool VALU::eventsPending() { return false; }
 
 uint64_t VALU::nextTimeSlot() {
-    VL_FATAL_MT(__FILE__, __LINE__, "", "No delays in the design");
+    VL_FATAL_MT(__FILE__, __LINE__, "", "%Error: No delays in the design");
     return 0;
 }
 
@@ -99,4 +99,11 @@ unsigned VALU::threads() const { return 1; }
 void VALU::prepareClone() const { contextp()->prepareClone(); }
 void VALU::atClone() const {
     contextp()->threadPoolpOnClone();
+}
+
+//============================================================
+// Trace configuration
+
+VL_ATTR_COLD void VALU::trace(VerilatedVcdC* tfp, int levels, int options) {
+    vl_fatal(__FILE__, __LINE__, __FILE__,"'VALU::trace()' called on model that was Verilated without --trace option");
 }

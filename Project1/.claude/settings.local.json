@@ -1,21 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(sbt \"run --target-dir generated\")",
-      "Bash(sbt run:*)",
-      "Bash(find D:/Codes/EDA_project/Project1 -name *.sv -o -name *.v)",
+      "Bash(sbt:*)",
       "Bash(verilator:*)",
-      "Bash(bash .claude/hooks/pre_run_clean.sh 2>&1)",
-      "Bash(sbt \"runMain ALU\")",
-      "Bash(bash D:/Codes/EDA_project/Project1/.claude/hooks/post_verilog_generate.sh 2>&1)",
-      "Bash(perl -e \"use Pod::Usage\")",
-      "Bash(pacman -S perl-pod-usage)",
-      "Bash(cpan Pod::Usage)",
-      "Bash(pacman -S perl)",
-      "Bash(pacman -S mingw-w64-ucrt-x86_64-perl)",
-      "Bash(PERL5LIB=/d/msys/ucrt64/lib/perl5/core_perl:/d/msys/ucrt64/lib/perl5/vendor_perl /d/msys/ucrt64/bin/perl /d/msys/ucrt64/bin/verilator --version 2>&1)",
-      "Bash(PERL5LIB=/d/msys/ucrt64/lib/perl5/core_perl:/d/msys/ucrt64/lib/perl5/vendor_perl /d/msys/ucrt64/bin/perl /d/msys/ucrt64/bin/verilator --cc --exe --build generated/top.sv testbench/alu_tb.cpp --top-module ALU -o sim_alu --Mdir sim/obj_dir)",
-      "Bash(./sim/obj_dir/sim_alu)"
+      "Bash(bash .claude/hooks/pre_run_clean.sh)",
+      "Bash(bash .claude/hooks/post_verilog_generate.sh)",
+      "Bash(bash .claude/hooks/on_lint_fail.sh)",
+      "Bash(./sim/obj_dir/VALU)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'FILE=$(cat | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get(\\\"file_path\\\",\\\"\\\"))\" 2>/dev/null); if echo \"$FILE\" | grep -qE \"\\.(v|sv)$\"; then bash .claude/hooks/post_verilog_generate.sh; if grep -q \"%Error\" sim/logs/lint.log 2>/dev/null; then bash .claude/hooks/on_lint_fail.sh; fi; fi'"
+          }
+        ]
+      }
     ]
   }
 }

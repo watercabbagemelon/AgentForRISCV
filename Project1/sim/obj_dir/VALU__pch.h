@@ -5,6 +5,7 @@
 // unless using verilator public meta comments.
 // Suggest use VALU.h instead.
 
+
 #ifndef VERILATED_VALU__PCH_H_
 #define VERILATED_VALU__PCH_H_  // guard
 
@@ -21,7 +22,5 @@
 
 #include "VALU__Syms.h"
 #include "VALU.h"
-
-// Additional include files added using '--compiler-include'
 
 #endif  // guard

@@ -1,1 +1,17 @@
-[debug] Jar uptodate: D:\Codes\EDA_project\Project1\target\scala-2.13\riscv-module-generator_2.13-0.1.0-SNAPSHOT.jar
+[debug] Packaging /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/riscv-module-generator_2.13-0.1.0-SNAPSHOT.jar ...
+[debug] Input file mappings:
+[debug] 	ALUOp.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALUOp.class
+[debug] 	ALUMain$.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALUMain$.class
+[debug] 	ALU.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALU.class
+[debug] 	ALUMain$delayedInit$body.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALUMain$delayedInit$body.class
+[debug] 	ALUOp$.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALUOp$.class
+[debug] 	ALU$$anon$1.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALU$$anon$1.class
+[debug] 	ALUMain.class
+[debug] 	  /home/cabbage/workspace/EDA_system/AgentForRISCV/Project1/target/scala-2.13/classes/ALUMain.class
+[debug] Done packaging.
