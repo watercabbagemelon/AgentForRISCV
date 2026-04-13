@@ -14,5 +14,42 @@
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "orfs-agent"
-  ]
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate_synth.sh",
+            "if": "Bash(*1_synth*)",
+            "timeout": 30,
+            "statusMessage": "验证综合阶段产物..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate_place.sh",
+            "if": "Bash(*3_place*)",
+            "timeout": 30,
+            "statusMessage": "验证布局阶段产物..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate_route.sh",
+            "if": "Bash(*5_route*)",
+            "timeout": 30,
+            "statusMessage": "验证布线阶段产物..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate_finish.sh",
+            "if": "Bash(*6_finish*)",
+            "timeout": 30,
+            "statusMessage": "验证版图生成产物..."
+          }
+        ]
+      }
+    ]
+  }
 }

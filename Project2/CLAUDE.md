@@ -1,44 +1,76 @@
-# CLAUDE.md - 后端自动化Agent项目规范
+# CLAUDE.md - 数字后端自动化Agent规范
 
 ## 项目概述
-本项目是一个基于Claude Code的数字后端自动化Agent，用于将RTL设计（ALU）通过OpenROAD Flow Scripts (ORFS) 完成从综合到布局布线的完整后端流程，最终生成GDSII版图及PPA报告。Agent通过MCP Server封装Docker操作，利用Skill编排流程，遵循本文件定义的规则与约定。
+基于Claude Code的数字后端自动化Agent，将ALU的RTL设计通过OpenROAD Flow Scripts（ORFS）完成综合、布图规划、布局、CTS、布线到GDSII生成的完整后端流程，并输出PPA报告。MCP Server封装Docker操作，Agent通过工具调用编排各阶段流程。
 
 ## 核心环境
-- **工艺平台**：sky130hd（唯一允许的平台）
-- **容器镜像**：`openroad/orfs:latest`（内置Yosys、OpenROAD、KLayout及sky130hd平台文件）
-- **工作模式**：常驻容器 `orfs-agent`，本地设计目录挂载到容器内 `/workspace`
-- **ORFS路径**（容器内）：`/OpenROAD-flow-scripts/flow/`
-- **输入设计**：第一次作业中验证通过的ALU（顶层模块名 `alu` 或具体名称，以RTL为准）
+- **工艺平台**：sky130hd
+- **容器镜像**：`openroad/orfs:latest`（含Yosys、OpenROAD、KLayout及sky130hd PDK）
+- **常驻容器**：`orfs-agent`，宿主机 `./design/` 挂载至容器 `/workspace/design/`
+- **ORFS工作目录**（容器内）：`/OpenROAD-flow-scripts/flow/`
+- **顶层模块**：`ALU`，RTL源文件为 `alu.sv`
 
-## 目录结构约定（宿主机）
-项目根目录/
-├── .claude/ # Claude Code配置目录
-│ ├── CLAUDE.md # 本文件
-│ ├── skills/ # Skill定义文件
-│ │ └── backend-flow.md
-│ └── hooks/ # Hook脚本（可选）
-├── design/ # 挂载到容器 /workspace
-│ ├── rtl/ # RTL源文件（ALU的.v文件）
-│ ├── config.mk # ORFS配置（必须）
-│ ├── constraint.sdc # 时序约束（必须）
-│ └── outputs/ # Agent运行结果存放（可选，亦可使用ORFS默认输出）
-├── mcp-server/ # MCP Server源码
-│ ├── package.json
-│ ├── index.js # MCP Server入口
-│ └── docker-exec.js # Docker exec封装
-├── scripts/ # 辅助脚本（如指标提取、错误诊断）
-└── reports/ # 汇总报告输出
+## 目录结构
+```
+Project2/
+├── CLAUDE.md
+├── design/                  # 挂载至容器 /workspace/design
+│   ├── rtl/alu.sv           # RTL源文件
+│   ├── config.mk            # ORFS流程配置
+│   └── constraint.sdc       # 时序约束
+├── mcp_server/              # MCP Server（Node.js）
+│   ├── src/index.js         # 工具定义与入口
+│   └── package.json
+├── logs/                    # 各阶段运行日志
+├── reports/                 # 各阶段报告及汇总
+└── results/                 # 最终输出（GDS、报告）
+```
 
-text
+## 容器操作规范
+- 容器创建（一次性）：`docker run -d --name orfs-agent -v $(pwd)/design:/workspace/design openroad/orfs:latest sleep infinity`
+- 所有EDA命令通过 `docker exec orfs-agent <command>` 执行
+- 容器内执行ORFS命令前须切换至 `/OpenROAD-flow-scripts/flow/`
+- `config.mk` 中路径使用容器内绝对路径（`/workspace/design/...`）
 
-## 容器与挂载规范
-- **常驻容器名称**：`orfs-agent`（固定）
-- **创建命令**（一次性）：
-  ```bash
-  docker run -d --name orfs-agent -v $(pwd)/design:/workspace openroad/orfs:latest sleep infinity
-交互方式：所有EDA工具调用均通过 docker exec orfs-agent <command> 执行。
+## 关键配置（config.mk）
+| 参数 | 值 |
+|------|----|
+| DESIGN_NAME | ALU |
+| PLATFORM | sky130hd |
+| VERILOG_FILES | /workspace/design/rtl/alu.sv |
+| SDC_FILE | /workspace/design/constraint.sdc |
+| DIE_AREA | 0 0 300 300 um |
+| CORE_AREA | 10 10 290 290 um |
+| PLACE_DENSITY | 0.3 |
 
-工作目录：在容器内执行ORFS命令时，必须先 cd /OpenROAD-flow-scripts/flow。
+## 流程阶段与命令
+| 阶段 | make目标 | 说明 |
+|------|----------|------|
+| 综合 | `1_synth` | Yosys，ABC speed script |
+| 布图规划 | `2_floorplan` | Die/Core定义、PDN生成 |
+| 布局 | `3_place` | RePlAce全局 + OpenDP详细 |
+| CTS | `4_cts` | 纯组合逻辑无sink，自动跳过 |
+| 布线 | `5_route` | FastRoute + TritonRoute |
+| 版图生成 | `6_finish` | GDS导出，fill cell插入 |
 
-路径映射：宿主机 ./design/ 下的 config.mk、constraint.sdc、RTL文件需放在正确位置，以便ORFS读取。ORFS默认查找 DESIGN_CONFIG 指向的 .mk 文件，其中 VERILOG_FILES 和 SDC_FILE 应使用容器内绝对路径（如 /workspace/rtl/alu.v）
+执行示例：
+```bash
+docker exec orfs-agent bash -c "cd /OpenROAD-flow-scripts/flow && make DESIGN_CONFIG=/workspace/design/config.mk 6_finish"
+```
 
+## 输出规范
+- 日志：各阶段日志存入 `logs/`
+- 报告：各阶段 `.rpt`、`.json` 存入 `reports/`
+- 最终输出：`results/6_final.gds`、`results/summary_report.md`
+
+## MCP Server工具
+MCP Server（`mcp_server/src/index.js`）提供以下工具供Agent调用：
+- `run_orfs_stage`：执行指定ORFS阶段
+- `read_report`：读取指定报告文件内容
+- `check_drc`：检查DRC违规
+- `get_ppa`：提取PPA指标
+
+## 注意事项
+- ALU为纯组合逻辑，无寄存器，CTS阶段检测到0个时钟sink，正常跳过
+- 布线完成后DRC违规应为0，否则需排查并修复后重新布线
+- 报告中路径引用统一使用宿主机相对路径
