@@ -1,0 +1,75 @@
+OpenROAD 26Q1-2966-g29d97c45b3 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 20 thread(s).
+read_liberty /OpenROAD-flow-scripts/flow/platforms/sky130hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_liberty /workspace/persist/sram22_sky130_macros/sram22_64x32m4w8/sram22_64x32m4w8_tt_025C_1v80.lib
+read_liberty /workspace/persist/sram22_sky130_macros/sram22_1024x32m8w8/sram22_1024x32m8w8_tt_025C_1v80.lib
+read_db ./results/sky130hd/tinyRocket/base/6_1_fill.odb
+read_sdc ./results/sky130hd/tinyRocket/base/6_1_fill.sdc
+source /OpenROAD-flow-scripts/flow/platforms/sky130hd/setRC.tcl
+write_db ./results/sky130hd/tinyRocket/base/6_final.odb
+Deleted 0 routing obstructions
+Warning: master sky130_ef_sc_hd__decap_12 has signal pins but no liberty cell
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /OpenROAD-flow-scripts/flow/platforms/sky130hd/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation RocketTile (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 103774 rc segments
+[INFO RCX-0439] Coupling Cap extraction RocketTile ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 37% of 214983 wires extracted
+[INFO RCX-0442] 56% of 214983 wires extracted
+[INFO RCX-0442] 78% of 214983 wires extracted
+[INFO RCX-0442] 100% of 214983 wires extracted
+[INFO RCX-0045] Extract 22069 nets, 125796 rsegs, 125796 caps, 239931 ccs
+[INFO RCX-0443] 22069 nets finished
+[INFO PSM-0040] All shapes on net VDD are connected.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Total power      : 4.73e-02 W
+Supply voltage   : 1.80e+00 V
+Worstcase voltage: 1.80e+00 V
+Average voltage  : 1.80e+00 V
+Average IR drop  : 1.27e-05 V
+Worstcase IR drop: 4.43e-04 V
+Percentage drop  : 0.02 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Total power      : 4.73e-02 W
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 4.03e-04 V
+Average voltage  : 1.21e-05 V
+Average IR drop  : 1.21e-05 V
+Worstcase IR drop: 4.03e-04 V
+Percentage drop  : 0.02 %
+######################################
+Cell type report:                       Count       Area
+  Macro                                     2  137642.24
+  Fill cell                             67136  437393.24
+  Tap cell                               9315   11654.93
+  Antenna cell                            130     325.31
+  Clock buffer                            554   11737.51
+  Timing Repair Buffer                   1323   10717.78
+  Inverter                               1265    4750.81
+  Clock inverter                          266    2671.31
+  Sequential cell                        3926  111259.21
+  Multi-Input combinational cell        13810  111285.48
+  Total                                 97727  839437.82
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 402045 um^2 47% utilization.
+[WARNING GUI-0076] QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+[WARNING GUI-0066] Heat map "IR Drop" has not been populated with data.
+[WARNING GUI-0066] Heat map "Routing Congestion" has not been populated with data.
+Elapsed time: 0:55.60[h:]min:sec. CPU time: user 56.91 sys 9.39 (119%). Peak memory: 753884KB.
+Log                        Elapsed/s Peak Memory/MB  sha1sum .odb [0:20)
+6_report                          55            736                  N/A

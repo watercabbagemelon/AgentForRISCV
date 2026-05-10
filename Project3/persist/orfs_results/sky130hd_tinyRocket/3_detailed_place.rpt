@@ -1,0 +1,579 @@
+
+==========================================================================
+detailed place report_tns
+--------------------------------------------------------------------------
+tns max 0.00
+
+==========================================================================
+detailed place report_wns
+--------------------------------------------------------------------------
+wns max 0.00
+
+==========================================================================
+detailed place report_worst_slack
+--------------------------------------------------------------------------
+worst slack max 9.76
+
+==========================================================================
+detailed place report_clock_min_period
+--------------------------------------------------------------------------
+core_clock period_min = 10.24 fmax = 97.61
+
+==========================================================================
+detailed place report_checks -path_delay min
+--------------------------------------------------------------------------
+Startpoint: intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                  0.00    0.00    0.00 ^ intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+     1    0.00    0.04    0.28    0.28 ^ intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_1)
+                                         intsink/SynchronizerShiftReg_w1_d3/sync_1 (net)
+                  0.04    0.00    0.28 ^ intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_/D (sky130_fd_sc_hd__dfxtp_1)
+                                  0.28   data arrival time
+
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.10    0.10   clock uncertainty
+                          0.00    0.10   clock reconvergence pessimism
+                                  0.10 ^ intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                         -0.04    0.06   library hold time
+                                  0.06   data required time
+-----------------------------------------------------------------------------
+                                  0.06   data required time
+                                 -0.28   data arrival time
+-----------------------------------------------------------------------------
+                                  0.21   slack (MET)
+
+
+
+==========================================================================
+detailed place report_checks -path_delay max
+--------------------------------------------------------------------------
+Startpoint: frontend/fq/_T_1_0$_SDFF_PP0_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: frontend/fq/_T_2_2_data[30]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                  0.00    0.00    0.00 ^ frontend/fq/_T_1_0$_SDFF_PP0_/CLK (sky130_fd_sc_hd__dfxtp_2)
+     2    0.01    0.05    0.31    0.31 ^ frontend/fq/_T_1_0$_SDFF_PP0_/Q (sky130_fd_sc_hd__dfxtp_2)
+                                         frontend/fq/_T_1_0 (net)
+                  0.05    0.00    0.31 ^ frontend/fq/place2129/A (sky130_fd_sc_hd__buf_4)
+    33    0.21    0.57    0.48    0.79 ^ frontend/fq/place2129/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net2128 (net)
+                  0.57    0.01    0.79 ^ frontend/fq/place2128/A (sky130_fd_sc_hd__buf_4)
+    38    0.25    0.66    0.66    1.45 ^ frontend/fq/place2128/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net2127 (net)
+                  0.66    0.00    1.46 ^ frontend/fq/_620_/S (sky130_fd_sc_hd__mux2_2)
+     3    0.02    0.09    0.47    1.92 v frontend/fq/_620_/X (sky130_fd_sc_hd__mux2_2)
+                                         core_io_imem_resp_bits_data[22] (net)
+                  0.09    0.00    1.92 v core/ibuf/_196_/A1 (sky130_fd_sc_hd__mux2i_1)
+     1    0.01    0.21    0.22    2.14 ^ core/ibuf/_196_/Y (sky130_fd_sc_hd__mux2i_1)
+                                         core/ibuf/_058_ (net)
+                  0.21    0.00    2.14 ^ core/ibuf/_198_/A2 (sky130_fd_sc_hd__o21ai_2)
+     1    0.00    0.07    0.07    2.22 v core/ibuf/_198_/Y (sky130_fd_sc_hd__o21ai_2)
+                                         core/ibuf_io_inst_0_bits_raw[6] (net)
+                  0.07    0.00    2.22 v core/place1752/A (sky130_fd_sc_hd__buf_4)
+    15    0.13    0.17    0.26    2.47 v core/place1752/X (sky130_fd_sc_hd__buf_4)
+                                         core/net1751 (net)
+                  0.18    0.02    2.50 v core/ibuf/RVCExpander/_0512_/A (sky130_fd_sc_hd__nor4_4)
+     5    0.02    0.35    0.44    2.93 ^ core/ibuf/RVCExpander/_0512_/Y (sky130_fd_sc_hd__nor4_4)
+                                         core/ibuf/RVCExpander/_0007_ (net)
+                  0.35    0.00    2.93 ^ core/ibuf/RVCExpander/_0555_/B (sky130_fd_sc_hd__and2_0)
+     7    0.04    0.60    0.56    3.50 ^ core/ibuf/RVCExpander/_0555_/X (sky130_fd_sc_hd__and2_0)
+                                         core/ibuf/RVCExpander/_0047_ (net)
+                  0.60    0.00    3.50 ^ core/ibuf/RVCExpander/_0943_/A1 (sky130_fd_sc_hd__a21oi_1)
+     2    0.02    0.23    0.29    3.79 v core/ibuf/RVCExpander/_0943_/Y (sky130_fd_sc_hd__a21oi_1)
+                                         core/ibuf/RVCExpander/_0405_ (net)
+                  0.23    0.00    3.79 v core/ibuf/RVCExpander/_0964_/D1 (sky130_fd_sc_hd__a2111oi_2)
+     1    0.01    0.31    0.31    4.10 ^ core/ibuf/RVCExpander/_0964_/Y (sky130_fd_sc_hd__a2111oi_2)
+                                         core/ibuf/RVCExpander/_0424_ (net)
+                  0.31    0.00    4.10 ^ core/ibuf/RVCExpander/_0966_/B2 (sky130_fd_sc_hd__a221o_1)
+     1    0.00    0.05    0.19    4.29 ^ core/ibuf/RVCExpander/_0966_/X (sky130_fd_sc_hd__a221o_1)
+                                         core/ibuf_io_inst_0_bits_inst_bits[3] (net)
+                  0.05    0.00    4.29 ^ core/place1524/A (sky130_fd_sc_hd__buf_4)
+    22    0.11    0.31    0.29    4.58 ^ core/place1524/X (sky130_fd_sc_hd__buf_4)
+                                         core/net1523 (net)
+                  0.31    0.01    4.60 ^ core/_6224_/B (sky130_fd_sc_hd__nor3b_1)
+     1    0.00    0.07    0.09    4.69 v core/_6224_/Y (sky130_fd_sc_hd__nor3b_1)
+                                         core/_2747_ (net)
+                  0.07    0.00    4.69 v core/_6225_/B2 (sky130_fd_sc_hd__o22ai_1)
+     2    0.03    0.68    0.53    5.21 ^ core/_6225_/Y (sky130_fd_sc_hd__o22ai_1)
+                                         core/id_ctrl_wxd (net)
+                  0.68    0.00    5.21 ^ core/_6234_/B1 (sky130_fd_sc_hd__o21ai_1)
+     4    0.02    0.24    0.30    5.52 v core/_6234_/Y (sky130_fd_sc_hd__o21ai_1)
+                                         core/_2756_ (net)
+                  0.24    0.00    5.52 v core/_6243_/A (sky130_fd_sc_hd__nor4_1)
+     1    0.01    0.43    0.49    6.01 ^ core/_6243_/Y (sky130_fd_sc_hd__nor4_1)
+                                         core/_2765_ (net)
+                  0.43    0.00    6.01 ^ core/_6244_/C1 (sky130_fd_sc_hd__a221oi_1)
+     1    0.00    0.12    0.11    6.11 v core/_6244_/Y (sky130_fd_sc_hd__a221oi_1)
+                                         core/_2766_ (net)
+                  0.12    0.00    6.11 v core/_6245_/B (sky130_fd_sc_hd__nor2_1)
+     2    0.03    0.60    0.49    6.61 ^ core/_6245_/Y (sky130_fd_sc_hd__nor2_1)
+                                         core/_2767_ (net)
+                  0.60    0.00    6.61 ^ core/_6512_/A1 (sky130_fd_sc_hd__a221oi_1)
+     2    0.00    0.15    0.20    6.81 v core/_6512_/Y (sky130_fd_sc_hd__a221oi_1)
+                                         core/_3020_ (net)
+                  0.15    0.00    6.81 v core/_6581_/A (sky130_fd_sc_hd__and3_1)
+     4    0.03    0.17    0.31    7.12 v core/_6581_/X (sky130_fd_sc_hd__and3_1)
+                                         core/ibuf_io_inst_0_ready (net)
+                  0.17    0.00    7.12 v core/ibuf/_224_/A (sky130_fd_sc_hd__and3_1)
+     1    0.00    0.05    0.21    7.33 v core/ibuf/_224_/X (sky130_fd_sc_hd__and3_1)
+                                         core/ibuf/_076_ (net)
+                  0.05    0.00    7.33 v core/ibuf/_225_/B1 (sky130_fd_sc_hd__a22oi_2)
+     2    0.02    0.25    0.21    7.54 ^ core/ibuf/_225_/Y (sky130_fd_sc_hd__a22oi_2)
+                                         core/ibuf/_077_ (net)
+                  0.25    0.00    7.54 ^ core/ibuf/_226_/B1 (sky130_fd_sc_hd__a21oi_1)
+     1    0.01    0.09    0.10    7.64 v core/ibuf/_226_/Y (sky130_fd_sc_hd__a21oi_1)
+                                         core_io_imem_resp_ready (net)
+                  0.09    0.00    7.64 v frontend/fq/place1327/A (sky130_fd_sc_hd__buf_4)
+    10    0.05    0.08    0.20    7.84 v frontend/fq/place1327/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1326 (net)
+                  0.08    0.00    7.84 v frontend/fq/_697_/B (sky130_fd_sc_hd__nor3b_2)
+     4    0.01    0.27    0.27    8.12 ^ frontend/fq/_697_/Y (sky130_fd_sc_hd__nor3b_2)
+                                         frontend/fq/_280_ (net)
+                  0.27    0.00    8.12 ^ frontend/fq/_707_/B (sky130_fd_sc_hd__nand2_1)
+     2    0.01    0.16    0.16    8.28 v frontend/fq/_707_/Y (sky130_fd_sc_hd__nand2_1)
+                                         frontend/fq/_288_ (net)
+                  0.16    0.00    8.28 v frontend/fq/_708_/B1 (sky130_fd_sc_hd__o22ai_4)
+     9    0.06    0.48    0.42    8.69 ^ frontend/fq/_708_/Y (sky130_fd_sc_hd__o22ai_4)
+                                         frontend/fq/_T_48 (net)
+                  0.48    0.00    8.69 ^ frontend/fq/place1315/A (sky130_fd_sc_hd__buf_4)
+    29    0.17    0.47    0.51    9.20 ^ frontend/fq/place1315/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1314 (net)
+                  0.47    0.00    9.20 ^ frontend/fq/place1314/A (sky130_fd_sc_hd__buf_4)
+    30    0.20    0.53    0.55    9.76 ^ frontend/fq/place1314/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1313 (net)
+                  0.54    0.01    9.77 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/DE (sky130_fd_sc_hd__edfxtp_1)
+                                  9.77   data arrival time
+
+                  0.00   20.00   20.00   clock core_clock (rise edge)
+                          0.00   20.00   clock network delay (ideal)
+                         -0.10   19.90   clock uncertainty
+                          0.00   19.90   clock reconvergence pessimism
+                                 19.90 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/CLK (sky130_fd_sc_hd__edfxtp_1)
+                         -0.37   19.53   library setup time
+                                 19.53   data required time
+-----------------------------------------------------------------------------
+                                 19.53   data required time
+                                 -9.77   data arrival time
+-----------------------------------------------------------------------------
+                                  9.76   slack (MET)
+
+
+
+==========================================================================
+detailed place report_checks -unconstrained
+--------------------------------------------------------------------------
+Startpoint: frontend/fq/_T_1_0$_SDFF_PP0_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: frontend/fq/_T_2_2_data[30]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                  0.00    0.00    0.00 ^ frontend/fq/_T_1_0$_SDFF_PP0_/CLK (sky130_fd_sc_hd__dfxtp_2)
+     2    0.01    0.05    0.31    0.31 ^ frontend/fq/_T_1_0$_SDFF_PP0_/Q (sky130_fd_sc_hd__dfxtp_2)
+                                         frontend/fq/_T_1_0 (net)
+                  0.05    0.00    0.31 ^ frontend/fq/place2129/A (sky130_fd_sc_hd__buf_4)
+    33    0.21    0.57    0.48    0.79 ^ frontend/fq/place2129/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net2128 (net)
+                  0.57    0.01    0.79 ^ frontend/fq/place2128/A (sky130_fd_sc_hd__buf_4)
+    38    0.25    0.66    0.66    1.45 ^ frontend/fq/place2128/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net2127 (net)
+                  0.66    0.00    1.46 ^ frontend/fq/_620_/S (sky130_fd_sc_hd__mux2_2)
+     3    0.02    0.09    0.47    1.92 v frontend/fq/_620_/X (sky130_fd_sc_hd__mux2_2)
+                                         core_io_imem_resp_bits_data[22] (net)
+                  0.09    0.00    1.92 v core/ibuf/_196_/A1 (sky130_fd_sc_hd__mux2i_1)
+     1    0.01    0.21    0.22    2.14 ^ core/ibuf/_196_/Y (sky130_fd_sc_hd__mux2i_1)
+                                         core/ibuf/_058_ (net)
+                  0.21    0.00    2.14 ^ core/ibuf/_198_/A2 (sky130_fd_sc_hd__o21ai_2)
+     1    0.00    0.07    0.07    2.22 v core/ibuf/_198_/Y (sky130_fd_sc_hd__o21ai_2)
+                                         core/ibuf_io_inst_0_bits_raw[6] (net)
+                  0.07    0.00    2.22 v core/place1752/A (sky130_fd_sc_hd__buf_4)
+    15    0.13    0.17    0.26    2.47 v core/place1752/X (sky130_fd_sc_hd__buf_4)
+                                         core/net1751 (net)
+                  0.18    0.02    2.50 v core/ibuf/RVCExpander/_0512_/A (sky130_fd_sc_hd__nor4_4)
+     5    0.02    0.35    0.44    2.93 ^ core/ibuf/RVCExpander/_0512_/Y (sky130_fd_sc_hd__nor4_4)
+                                         core/ibuf/RVCExpander/_0007_ (net)
+                  0.35    0.00    2.93 ^ core/ibuf/RVCExpander/_0555_/B (sky130_fd_sc_hd__and2_0)
+     7    0.04    0.60    0.56    3.50 ^ core/ibuf/RVCExpander/_0555_/X (sky130_fd_sc_hd__and2_0)
+                                         core/ibuf/RVCExpander/_0047_ (net)
+                  0.60    0.00    3.50 ^ core/ibuf/RVCExpander/_0943_/A1 (sky130_fd_sc_hd__a21oi_1)
+     2    0.02    0.23    0.29    3.79 v core/ibuf/RVCExpander/_0943_/Y (sky130_fd_sc_hd__a21oi_1)
+                                         core/ibuf/RVCExpander/_0405_ (net)
+                  0.23    0.00    3.79 v core/ibuf/RVCExpander/_0964_/D1 (sky130_fd_sc_hd__a2111oi_2)
+     1    0.01    0.31    0.31    4.10 ^ core/ibuf/RVCExpander/_0964_/Y (sky130_fd_sc_hd__a2111oi_2)
+                                         core/ibuf/RVCExpander/_0424_ (net)
+                  0.31    0.00    4.10 ^ core/ibuf/RVCExpander/_0966_/B2 (sky130_fd_sc_hd__a221o_1)
+     1    0.00    0.05    0.19    4.29 ^ core/ibuf/RVCExpander/_0966_/X (sky130_fd_sc_hd__a221o_1)
+                                         core/ibuf_io_inst_0_bits_inst_bits[3] (net)
+                  0.05    0.00    4.29 ^ core/place1524/A (sky130_fd_sc_hd__buf_4)
+    22    0.11    0.31    0.29    4.58 ^ core/place1524/X (sky130_fd_sc_hd__buf_4)
+                                         core/net1523 (net)
+                  0.31    0.01    4.60 ^ core/_6224_/B (sky130_fd_sc_hd__nor3b_1)
+     1    0.00    0.07    0.09    4.69 v core/_6224_/Y (sky130_fd_sc_hd__nor3b_1)
+                                         core/_2747_ (net)
+                  0.07    0.00    4.69 v core/_6225_/B2 (sky130_fd_sc_hd__o22ai_1)
+     2    0.03    0.68    0.53    5.21 ^ core/_6225_/Y (sky130_fd_sc_hd__o22ai_1)
+                                         core/id_ctrl_wxd (net)
+                  0.68    0.00    5.21 ^ core/_6234_/B1 (sky130_fd_sc_hd__o21ai_1)
+     4    0.02    0.24    0.30    5.52 v core/_6234_/Y (sky130_fd_sc_hd__o21ai_1)
+                                         core/_2756_ (net)
+                  0.24    0.00    5.52 v core/_6243_/A (sky130_fd_sc_hd__nor4_1)
+     1    0.01    0.43    0.49    6.01 ^ core/_6243_/Y (sky130_fd_sc_hd__nor4_1)
+                                         core/_2765_ (net)
+                  0.43    0.00    6.01 ^ core/_6244_/C1 (sky130_fd_sc_hd__a221oi_1)
+     1    0.00    0.12    0.11    6.11 v core/_6244_/Y (sky130_fd_sc_hd__a221oi_1)
+                                         core/_2766_ (net)
+                  0.12    0.00    6.11 v core/_6245_/B (sky130_fd_sc_hd__nor2_1)
+     2    0.03    0.60    0.49    6.61 ^ core/_6245_/Y (sky130_fd_sc_hd__nor2_1)
+                                         core/_2767_ (net)
+                  0.60    0.00    6.61 ^ core/_6512_/A1 (sky130_fd_sc_hd__a221oi_1)
+     2    0.00    0.15    0.20    6.81 v core/_6512_/Y (sky130_fd_sc_hd__a221oi_1)
+                                         core/_3020_ (net)
+                  0.15    0.00    6.81 v core/_6581_/A (sky130_fd_sc_hd__and3_1)
+     4    0.03    0.17    0.31    7.12 v core/_6581_/X (sky130_fd_sc_hd__and3_1)
+                                         core/ibuf_io_inst_0_ready (net)
+                  0.17    0.00    7.12 v core/ibuf/_224_/A (sky130_fd_sc_hd__and3_1)
+     1    0.00    0.05    0.21    7.33 v core/ibuf/_224_/X (sky130_fd_sc_hd__and3_1)
+                                         core/ibuf/_076_ (net)
+                  0.05    0.00    7.33 v core/ibuf/_225_/B1 (sky130_fd_sc_hd__a22oi_2)
+     2    0.02    0.25    0.21    7.54 ^ core/ibuf/_225_/Y (sky130_fd_sc_hd__a22oi_2)
+                                         core/ibuf/_077_ (net)
+                  0.25    0.00    7.54 ^ core/ibuf/_226_/B1 (sky130_fd_sc_hd__a21oi_1)
+     1    0.01    0.09    0.10    7.64 v core/ibuf/_226_/Y (sky130_fd_sc_hd__a21oi_1)
+                                         core_io_imem_resp_ready (net)
+                  0.09    0.00    7.64 v frontend/fq/place1327/A (sky130_fd_sc_hd__buf_4)
+    10    0.05    0.08    0.20    7.84 v frontend/fq/place1327/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1326 (net)
+                  0.08    0.00    7.84 v frontend/fq/_697_/B (sky130_fd_sc_hd__nor3b_2)
+     4    0.01    0.27    0.27    8.12 ^ frontend/fq/_697_/Y (sky130_fd_sc_hd__nor3b_2)
+                                         frontend/fq/_280_ (net)
+                  0.27    0.00    8.12 ^ frontend/fq/_707_/B (sky130_fd_sc_hd__nand2_1)
+     2    0.01    0.16    0.16    8.28 v frontend/fq/_707_/Y (sky130_fd_sc_hd__nand2_1)
+                                         frontend/fq/_288_ (net)
+                  0.16    0.00    8.28 v frontend/fq/_708_/B1 (sky130_fd_sc_hd__o22ai_4)
+     9    0.06    0.48    0.42    8.69 ^ frontend/fq/_708_/Y (sky130_fd_sc_hd__o22ai_4)
+                                         frontend/fq/_T_48 (net)
+                  0.48    0.00    8.69 ^ frontend/fq/place1315/A (sky130_fd_sc_hd__buf_4)
+    29    0.17    0.47    0.51    9.20 ^ frontend/fq/place1315/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1314 (net)
+                  0.47    0.00    9.20 ^ frontend/fq/place1314/A (sky130_fd_sc_hd__buf_4)
+    30    0.20    0.53    0.55    9.76 ^ frontend/fq/place1314/X (sky130_fd_sc_hd__buf_4)
+                                         frontend/fq/net1313 (net)
+                  0.54    0.01    9.77 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/DE (sky130_fd_sc_hd__edfxtp_1)
+                                  9.77   data arrival time
+
+                  0.00   20.00   20.00   clock core_clock (rise edge)
+                          0.00   20.00   clock network delay (ideal)
+                         -0.10   19.90   clock uncertainty
+                          0.00   19.90   clock reconvergence pessimism
+                                 19.90 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/CLK (sky130_fd_sc_hd__edfxtp_1)
+                         -0.37   19.53   library setup time
+                                 19.53   data required time
+-----------------------------------------------------------------------------
+                                 19.53   data required time
+                                 -9.77   data arrival time
+-----------------------------------------------------------------------------
+                                  9.76   slack (MET)
+
+
+
+==========================================================================
+detailed place report_check_types -max_slew -max_cap -max_fanout -violators
+--------------------------------------------------------------------------
+max slew
+
+Pin                                    Limit    Slew   Slack
+------------------------------------------------------------
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[31]    0.04    0.45   -0.41 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[0]    0.04    0.41   -0.37 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[1]    0.04    0.40   -0.36 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[29]    0.04    0.39   -0.35 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[28]    0.04    0.39   -0.35 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[24]    0.04    0.39   -0.35 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[13]    0.04    0.36   -0.32 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[13]    0.04    0.34   -0.30 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[27]    0.04    0.34   -0.30 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[6]    0.04    0.33   -0.29 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[17]    0.04    0.33   -0.29 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[3]    0.04    0.32   -0.28 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[30]    0.04    0.32   -0.28 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[16]    0.04    0.31   -0.27 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[1]    0.04    0.31   -0.27 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[6]    0.04    0.31   -0.27 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[14]    0.04    0.29   -0.25 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[26]    0.04    0.29   -0.25 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[2]    0.04    0.28   -0.24 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[3]    0.04    0.27   -0.23 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[4]    0.04    0.26   -0.22 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[15]    0.04    0.26   -0.22 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[0]    0.04    0.24   -0.20 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[5]    0.04    0.22   -0.18 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[22]    0.04    0.22   -0.18 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[7]    0.04    0.22   -0.18 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[21]    0.04    0.21   -0.17 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[29]    0.04    0.21   -0.17 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[10]    0.04    0.21   -0.17 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[4]    0.04    0.20   -0.16 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[9]    0.04    0.20   -0.16 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[19]    0.04    0.20   -0.16 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[5]    0.04    0.20   -0.16 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[12]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[18]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[11]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[2]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[25]    0.04    0.19   -0.15 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[25]    0.04    0.19   -0.15 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[14]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[27]    0.04    0.19   -0.15 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[23]    0.04    0.19   -0.15 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[23]    0.04    0.18   -0.14 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[26]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[7]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[18]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[9]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[12]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[15]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[19]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[22]    0.04    0.18   -0.14 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[21]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[24]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[10]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[17]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[31]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[20]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[8]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[11]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[30]    0.04    0.17   -0.13 (VIOLATED)
+dcache/data/data_arrays_0/data_arrays_0_ext/mem/dout[16]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[8]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[20]    0.04    0.17   -0.13 (VIOLATED)
+frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem/dout[28]    0.04    0.16   -0.12 (VIOLATED)
+
+
+==========================================================================
+detailed place max_slew_check_slack
+--------------------------------------------------------------------------
+-0.4071213901042938
+
+==========================================================================
+detailed place max_slew_check_limit
+--------------------------------------------------------------------------
+0.03999999910593033
+
+==========================================================================
+detailed place max_slew_check_slack_limit
+--------------------------------------------------------------------------
+-10.1780
+
+==========================================================================
+detailed place max_fanout_check_slack
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+detailed place max_fanout_check_limit
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+detailed place max_capacitance_check_slack
+--------------------------------------------------------------------------
+0.007693369872868061
+
+==========================================================================
+detailed place max_capacitance_check_limit
+--------------------------------------------------------------------------
+0.11353500187397003
+
+==========================================================================
+detailed place max_capacitance_check_slack_limit
+--------------------------------------------------------------------------
+0.0678
+
+==========================================================================
+detailed place max_slew_violation_count
+--------------------------------------------------------------------------
+max slew violation count 64
+
+==========================================================================
+detailed place max_fanout_violation_count
+--------------------------------------------------------------------------
+max fanout violation count 0
+
+==========================================================================
+detailed place max_cap_violation_count
+--------------------------------------------------------------------------
+max cap violation count 0
+
+==========================================================================
+detailed place setup_violation_count
+--------------------------------------------------------------------------
+setup violation count 0
+
+==========================================================================
+detailed place hold_violation_count
+--------------------------------------------------------------------------
+hold violation count 0
+
+==========================================================================
+detailed place report_checks -path_delay max reg to reg
+--------------------------------------------------------------------------
+Startpoint: frontend/fq/_T_1_0$_SDFF_PP0_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: frontend/fq/_T_2_2_data[30]$_DFFE_PP_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock core_clock (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ frontend/fq/_T_1_0$_SDFF_PP0_/CLK (sky130_fd_sc_hd__dfxtp_2)
+   0.31    0.31 ^ frontend/fq/_T_1_0$_SDFF_PP0_/Q (sky130_fd_sc_hd__dfxtp_2)
+   0.48    0.79 ^ frontend/fq/place2129/X (sky130_fd_sc_hd__buf_4)
+   0.67    1.45 ^ frontend/fq/place2128/X (sky130_fd_sc_hd__buf_4)
+   0.47    1.92 v frontend/fq/_620_/X (sky130_fd_sc_hd__mux2_2)
+   0.22    2.14 ^ core/ibuf/_196_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.07    2.22 v core/ibuf/_198_/Y (sky130_fd_sc_hd__o21ai_2)
+   0.26    2.47 v core/place1752/X (sky130_fd_sc_hd__buf_4)
+   0.46    2.93 ^ core/ibuf/RVCExpander/_0512_/Y (sky130_fd_sc_hd__nor4_4)
+   0.57    3.50 ^ core/ibuf/RVCExpander/_0555_/X (sky130_fd_sc_hd__and2_0)
+   0.29    3.79 v core/ibuf/RVCExpander/_0943_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.31    4.10 ^ core/ibuf/RVCExpander/_0964_/Y (sky130_fd_sc_hd__a2111oi_2)
+   0.19    4.29 ^ core/ibuf/RVCExpander/_0966_/X (sky130_fd_sc_hd__a221o_1)
+   0.29    4.58 ^ core/place1524/X (sky130_fd_sc_hd__buf_4)
+   0.10    4.69 v core/_6224_/Y (sky130_fd_sc_hd__nor3b_1)
+   0.53    5.21 ^ core/_6225_/Y (sky130_fd_sc_hd__o22ai_1)
+   0.30    5.52 v core/_6234_/Y (sky130_fd_sc_hd__o21ai_1)
+   0.49    6.01 ^ core/_6243_/Y (sky130_fd_sc_hd__nor4_1)
+   0.11    6.11 v core/_6244_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.49    6.61 ^ core/_6245_/Y (sky130_fd_sc_hd__nor2_1)
+   0.20    6.81 v core/_6512_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.31    7.12 v core/_6581_/X (sky130_fd_sc_hd__and3_1)
+   0.21    7.33 v core/ibuf/_224_/X (sky130_fd_sc_hd__and3_1)
+   0.21    7.54 ^ core/ibuf/_225_/Y (sky130_fd_sc_hd__a22oi_2)
+   0.10    7.64 v core/ibuf/_226_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    7.84 v frontend/fq/place1327/X (sky130_fd_sc_hd__buf_4)
+   0.28    8.12 ^ frontend/fq/_697_/Y (sky130_fd_sc_hd__nor3b_2)
+   0.16    8.28 v frontend/fq/_707_/Y (sky130_fd_sc_hd__nand2_1)
+   0.42    8.69 ^ frontend/fq/_708_/Y (sky130_fd_sc_hd__o22ai_4)
+   0.51    9.20 ^ frontend/fq/place1315/X (sky130_fd_sc_hd__buf_4)
+   0.56    9.76 ^ frontend/fq/place1314/X (sky130_fd_sc_hd__buf_4)
+   0.01    9.77 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/DE (sky130_fd_sc_hd__edfxtp_1)
+           9.77   data arrival time
+
+  20.00   20.00   clock core_clock (rise edge)
+   0.00   20.00   clock network delay (ideal)
+  -0.10   19.90   clock uncertainty
+   0.00   19.90   clock reconvergence pessimism
+          19.90 ^ frontend/fq/_T_2_2_data[30]$_DFFE_PP_/CLK (sky130_fd_sc_hd__edfxtp_1)
+  -0.37   19.53   library setup time
+          19.53   data required time
+---------------------------------------------------------
+          19.53   data required time
+          -9.77   data arrival time
+---------------------------------------------------------
+           9.76   slack (MET)
+
+
+
+==========================================================================
+detailed place report_checks -path_delay min reg to reg
+--------------------------------------------------------------------------
+Startpoint: intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock core_clock (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.28    0.28 ^ intsink/SynchronizerShiftReg_w1_d3/sync_1$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.00    0.28 ^ intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_/D (sky130_fd_sc_hd__dfxtp_1)
+           0.28   data arrival time
+
+   0.00    0.00   clock core_clock (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.10    0.10   clock uncertainty
+   0.00    0.10   clock reconvergence pessimism
+           0.10 ^ intsink/SynchronizerShiftReg_w1_d3/sync_0$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.04    0.06   library hold time
+           0.06   data required time
+---------------------------------------------------------
+           0.06   data required time
+          -0.28   data arrival time
+---------------------------------------------------------
+           0.21   slack (MET)
+
+
+
+==========================================================================
+detailed place critical path target clock latency max path
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+detailed place critical path target clock latency min path
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+detailed place critical path source clock latency min path
+--------------------------------------------------------------------------
+0.0000
+
+==========================================================================
+detailed place critical path delay
+--------------------------------------------------------------------------
+9.7709
+
+==========================================================================
+detailed place critical path slack
+--------------------------------------------------------------------------
+9.7552
+
+==========================================================================
+detailed place slack div critical path delay
+--------------------------------------------------------------------------
+99.839319
+
+==========================================================================
+detailed place report_power
+--------------------------------------------------------------------------
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             1.09e-02   1.20e-03   3.54e-08   1.21e-02  30.8%
+Combinational          9.13e-03   1.72e-02   5.37e-08   2.63e-02  67.2%
+Clock                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Macro                  7.59e-04   0.00e+00   1.91e-07   7.59e-04   1.9%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  2.08e-02   1.84e-02   2.80e-07   3.91e-02 100.0%
+                          53.1%      46.9%       0.0%

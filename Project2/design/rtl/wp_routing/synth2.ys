@@ -1,0 +1,38 @@
+# 读取所有源文件
+read_verilog -sv /workspace/design/rtl/wp_routing/wp_routing.v
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_top.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_ctrl.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_load.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_bram.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_array.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_cell.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_back.sv
+read_verilog -sv /workspace/design/rtl/wp_routing/maze_fpga_decoder.sv
+
+# 设置顶层
+hierarchy -check -top wp_routing
+
+# 综合
+proc
+flatten
+opt_expr
+opt_clean
+check
+opt
+wreduce
+peepopt
+opt_clean
+share
+techmap
+opt -fast
+
+# 映射到 LUT4
+abc -lut 4
+opt_clean
+
+# 用 techmap 把 /* 映射到 LUT2/LUT3/LUT4/DFFRHQ
+techmap -map /workspace/design/rtl/wp_routing/fdp3p7_map.v
+opt_clean
+
+# 输出 EDIF
+write_edif -pvector bra /workspace/design/rtl/wp_routing/wp_routing_syn.edf
