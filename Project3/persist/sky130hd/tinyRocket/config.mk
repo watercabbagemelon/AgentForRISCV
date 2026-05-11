@@ -2,25 +2,31 @@ export DESIGN_NICKNAME = tinyRocket
 export DESIGN_NAME     = RocketTile
 export PLATFORM        = sky130hd
 
-# RTL sources: use existing ORFS tinyRocket Verilog sources
-export VERILOG_FILES = \
-    $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/AsyncResetReg.v \
-    $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/ClockDivider2.v \
-    $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/ClockDivider3.v \
-    $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/plusarg_reader.v \
-    $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/freechips.rocketchip.system.TinyConfig.v \
+# RTL sources: ChipYard TinyRocketConfig firtool post-processed Verilog
+# Exclude only the 4 SRAM black-boxes replaced by sram_macros.v wrappers:
+#   data_arrays_0_combMem, data_arrays_0_0_combMem, mem_combMem, tag_array_0_combMem
+# Keep rf_combMem and ram_combMem* (synthesized as register files)
+export VERILOG_FILES = $(shell grep -vE '(data_arrays_0_combMem|data_arrays_0_0_combMem|mem_combMem|tag_array_0_combMem)\.sv' /workspace/persist/rtl_output/chipyard.TestHarness.TinyRocketConfig/verilog_synth/filelist.f) \
     $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/sram_macros.v
 
 export SDC_FILE = $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/constraint.sdc
 
 # SRAM22 sky130 macro LEF and LIB files
 export ADDITIONAL_LEFS = \
-    /workspace/persist/sram22_sky130_macros/sram22_64x32m4w8/sram22_64x32m4w8.lef \
+    /workspace/persist/sram22_sky130_macros/sram22_2048x32m8w8/sram22_2048x32m8w8.lef \
+    /workspace/persist/sram22_sky130_macros/sram22_64x22m4w22/sram22_64x22m4w22.lef \
     /workspace/persist/sram22_sky130_macros/sram22_1024x32m8w8/sram22_1024x32m8w8.lef
 
 export ADDITIONAL_LIBS = \
-    /workspace/persist/sram22_sky130_macros/sram22_64x32m4w8/sram22_64x32m4w8_tt_025C_1v80.lib \
+    /workspace/persist/sram22_sky130_macros/sram22_2048x32m8w8/sram22_2048x32m8w8_tt_025C_1v80.lib \
+    /workspace/persist/sram22_sky130_macros/sram22_64x22m4w22/sram22_64x22m4w22_tt_025C_1v80.lib \
     /workspace/persist/sram22_sky130_macros/sram22_1024x32m8w8/sram22_1024x32m8w8_tt_025C_1v80.lib
+
+# SRAM22 GDS files for KLayout GDS merge (appended to platform GDS_FILES via ADDITIONAL_GDS)
+export ADDITIONAL_GDS = \
+    /workspace/persist/sram22_sky130_macros/sram22_2048x32m8w8/sram22_2048x32m8w8.gds \
+    /workspace/persist/sram22_sky130_macros/sram22_64x22m4w22/sram22_64x22m4w22.gds \
+    /workspace/persist/sram22_sky130_macros/sram22_1024x32m8w8/sram22_1024x32m8w8.gds
 
 # Floorplan
 export CORE_UTILIZATION  = 45

@@ -32,12 +32,18 @@ read_file("persist/sky130hd/<design_nickname>/config.mk")
 
 ---
 
-### 症状：Yosys 报 "ERROR: syntax error" 或 "unsupported SystemVerilog"
+### 症状：Yosys 报 "ERROR: syntax error" 或 "unsupported packed array"
 
-**原因：** Yosys 对 SystemVerilog 支持有限，ChipYard 生成的 `.sv` 文件无法直接综合。
+**原因：** `verilog_synth/` 中有模块未被正确过滤，仍含 Yosys 不支持的 SV 语法（packed array 聚合赋值 `wire [N:0][M:0] = '{...}`）。
 
-**修复：** 使用 ORFS 内置的旧版 rocket-chip Verilog 源，而非 ChipYard 生成的 SV 文件。
-确认 `config.mk` 中 `VERILOG_FILES` 指向 `.v` 文件而非 `.sv`。
+**排查：**
+```
+read_rtl_file(config="<config>", filename="verilog_synth/filelist.f")
+```
+找到报错的模块名，检查是否属于验证/外设模块（TLMonitor、TLError、TLAtomicAutomata 等）。
+
+**修复：** 在 `chipyard.js` 的 `EXCLUDE_MODULE_PREFIXES` 中追加该模块前缀，重新运行 `generate_rtl` 触发后处理。
+若是核心设计模块报错，检查 firtool 版本是否支持当前 lowering options 组合。
 
 ---
 
@@ -49,10 +55,11 @@ read_file("persist/sky130hd/<design_nickname>/config.mk")
 ```
 read_container_file("/OpenROAD-flow-scripts/flow/logs/sky130hd/<design_nickname>/base/1_1_yosys.log")
 ```
-搜索 `data_arrays`、`mem_ext` 等模块名，确认是否出现 `inferred memory` 警告。
+搜索 `data_arrays`、`mem_combMem` 等模块名，确认是否出现 `inferred memory` 警告。
 
-**修复：** 检查 `sram_macros.v` 中的 wrapper 模块名是否与 RTL 中的黑盒实例名完全匹配，
-并确认 `config.mk` 中 `VERILOG_FILES` 包含了 `sram_macros.v`。
+**修复：** 检查 `sram_macros.v` 中的 wrapper 模块名是否与 `verilog_synth/` 里的黑盒实例名完全匹配。
+ChipYard 生成的 SRAM 黑盒名为 `*_combMem` 格式（如 `data_arrays_0_combMem`），
+与旧版 rocket-chip 的 `*_ext` 格式不同，需用 `read_mems_conf` 确认实际名称后更新 wrapper。
 
 ---
 

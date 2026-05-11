@@ -6,7 +6,15 @@
       "Bash(docker exec orfs-agent:*)",
       "Bash(docker exec chipyard-agent:*)",
       "Bash(docker run:*)",
-      "Bash(docker rm:*)"
+      "Bash(docker rm:*)",
+      "mcp__chipyard-automation__generate_rtl",
+      "mcp__orfs-agent__list_files_container",
+      "mcp__chipyard-automation__read_rtl_file",
+      "mcp__orfs-agent__write_file",
+      "mcp__orfs-agent__read_file",
+      "mcp__orfs-agent__run_stage",
+      "mcp__orfs-agent__read_container_file",
+      "Bash(docker cp:*)"
     ]
   },
   "enabledMcpjsonServers": [

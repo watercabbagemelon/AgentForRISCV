@@ -44,24 +44,97 @@ start_chipyard(image="ictmrc/chipyard-image:1.9.1-ubuntu-22.04")
 
 容器名固定为 `chipyard-agent`，自动挂载宿主机 `persist/` 到容器内 `/workspace/persist`。
 
-### 2.2 生成 RTL
+### 2.2 生成 RTL 并后处理为可综合 Verilog
 
 ```
 generate_rtl(config="<config>")
 ```
 
-- 容器内自动激活 conda 环境，运行 `make verilog CONFIG=<config>`
-- 生成结果自动复制到 `persist/rtl_output/chipyard.TestHarness.<config>/`
-- 超时上限：30 分钟
+工具内部自动完成两步：
+1. 容器内激活 conda，运行 `make verilog CONFIG=<config>`，结果复制到 `persist/rtl_output/chipyard.TestHarness.<config>/`
+2. **firtool 后处理**：以 `noAlwaysComb,disallowLocalVariables` 等 lowering options 重新编译 `.fir`，消除 `always_ff`/`always_comb` 等 Yosys 不支持的 SV 语法，删除验证/外设模块，生成 `verilog_synth/filelist.f`
+
+超时上限：30 分钟（make）+ 5 分钟（firtool 后处理）
+
+**产物：**
+- 原始 SV：`persist/rtl_output/chipyard.TestHarness.<config>/gen-collateral/`
+- **可综合 Verilog（ORFS 使用此目录）**：`persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth/`
+- 文件列表：`persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth/filelist.f`
+
+### 2.2.1 firtool SV→V 转换原理
+
+ChipYard 默认输出 SystemVerilog（`.sv`），包含 Yosys 不支持的语法。`generate_rtl` 内部通过 firtool 重新编译 `.fir` 源文件，强制输出纯 Verilog：
+
+**关键 firtool 参数：**
+
+```bash
+firtool <design>.fir \
+  --format=fir \
+  --lowering-options=noAlwaysComb,disallowLocalVariables,disallowPackedArrays,locationInfoStyle=none \
+  --repl-seq-mem --repl-seq-mem-file=<design>.mems.conf \
+  --split-verilog \
+  -o verilog_synth/
+```
+
+| 参数 | 作用 |
+|------|------|
+| `noAlwaysComb` | 将 `always_comb` 改写为 `always @(*)` |
+| `disallowLocalVariables` | 消除块内局部变量声明（Yosys 不支持） |
+| `disallowPackedArrays` | 展开 packed struct/array（Yosys 不支持） |
+| `locationInfoStyle=none` | 去除行号注释，减小文件体积 |
+| `--repl-seq-mem` | 将 FIRRTL SRAM 提取为黑盒，生成 `.mems.conf` |
+| `--split-verilog` | 每个模块输出独立 `.sv` 文件 |
+
+**输出文件扩展名说明：**
+
+firtool 输出文件扩展名仍为 `.sv`，但内容已是纯 Verilog 语法（无 SV 特有结构）。Yosys 可直接读取，无需重命名为 `.v`。
+
+**手动执行（如需在容器内重跑后处理）：**
+
+```bash
+docker exec chipyard-agent bash -c "
+  source /workspace/chipyard/.conda-env/etc/profile.d/conda.sh
+  conda activate /workspace/chipyard/.conda-env
+  cd /workspace/chipyard
+
+  FIRFILE=\$(find /workspace/persist/rtl_output/chipyard.TestHarness.<config>/ -name '*.fir' | head -1)
+  OUTDIR=/workspace/persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth
+
+  mkdir -p \$OUTDIR
+  firtool \$FIRFILE \
+    --format=fir \
+    --lowering-options=noAlwaysComb,disallowLocalVariables,disallowPackedArrays,locationInfoStyle=none \
+    --repl-seq-mem --repl-seq-mem-file=\$OUTDIR/<config>.mems.conf \
+    --split-verilog -o \$OUTDIR/
+
+  # 生成 filelist.f（排除 SRAM 黑盒行为模型）
+  find \$OUTDIR -name '*.sv' \
+    | grep -vE '(data_arrays_0_combMem|data_arrays_0_0_combMem|mem_combMem|tag_array_0_combMem)\.sv' \
+    > \$OUTDIR/filelist.f
+"
+```
+
+**需要从 filelist.f 排除的 SRAM 行为模型：**
+
+firtool 会为每个 `--repl-seq-mem` 提取的黑盒生成同名 `.sv` 行为模型（用于仿真），这些文件不能进入综合，否则与 `sram_macros.v` 中的 wrapper 产生模块重定义冲突。在 `config.mk` 中用 `grep -vE` 过滤：
+
+```makefile
+export VERILOG_FILES = \
+  $(shell grep -vE '(data_arrays_0_combMem|data_arrays_0_0_combMem|mem_combMem|tag_array_0_combMem)\.sv' \
+    /workspace/persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth/filelist.f) \
+  $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/sram_macros.v
+```
+
+> 过滤模式需与 `read_mems_conf` 返回的实际黑盒名称保持一致，不同 ChipYard 配置的黑盒名称不同。
 
 ### 2.3 确认生成产物
 
 ```
 list_rtl_files(config="<config>")
-list_rtl_files(config="<config>", subdir="gen-collateral")
+list_rtl_files(config="<config>", subdir="verilog_synth")
 ```
 
-关注：是否存在顶层 `.sv` 文件和 `*.mems.conf`。
+关注：`verilog_synth/` 下是否有 `.sv` 文件和 `filelist.f`。
 
 ### 2.4 解析 SRAM 需求
 
@@ -71,16 +144,13 @@ read_mems_conf(config="<config>")
 
 返回结构化 SRAM 黑盒列表（名称/深度/宽度/类型），据此确定步骤三的映射方案。
 
-**注意：** ORFS 后端实际使用内置旧版 rocket-chip Verilog（`freechips.rocketchip.system.TinyConfig`），
-而非 ChipYard 生成的 SV 文件（Yosys 对 SystemVerilog 支持有限）。
-旧版 SRAM 黑盒规格（TinyRocketConfig 对应）：
+SRAM 黑盒由 firtool 的 `--repl-seq-mem` 选项从 ChipYard RTL 中提取，模块名为 `*_combMem` 格式。
+TinyRocketConfig 对应的黑盒（供参考，以 `read_mems_conf` 实际输出为准）：
 
 | 模块名 | 深度×宽度 | 类型 |
 |--------|-----------|------|
-| `data_arrays_0_ext` | 64×32 | mrw, mask_gran=8 |
-| `tag_array_ext` | 4×25 | rw（用 flop 实现） |
-| `data_arrays_0_0_ext` | 64×32 | rw |
-| `mem_ext` | 1024×32 | 1R+1W |
+| `data_arrays_0_combMem` | 64×32 | mrw, mask_gran=8 |
+| `mem_combMem` | 1024×32 | rw |
 
 ### 2.5 停止容器（可选）
 
@@ -150,11 +220,14 @@ read_file("persist/sky130hd/<design_nickname>/config.mk")
 
 ```makefile
 export DESIGN_NICKNAME = <design_nickname>
-export DESIGN_NAME     = <top_module>
+export DESIGN_NAME     = <top_module>        # ChipYard 生成的顶层模块名（如 RocketTile）
 export PLATFORM        = sky130hd
 export CORE_UTILIZATION  = 45
 export CORE_ASPECT_RATIO = 1
 export PLACE_DENSITY     = 0.60
+
+# 使用 ChipYard 生成的可综合 Verilog（firtool 后处理产物）
+export VERILOG_FILES = $(shell cat /workspace/persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth/filelist.f)
 ```
 
 ### 4.2 检查/更新 constraint.sdc

@@ -80,18 +80,29 @@ persist/
 
 ---
 
-## SRAM 映射关键约束
+## RTL 来源与 SRAM 映射
 
-ORFS 后端使用内置旧版 rocket-chip Verilog（`freechips.rocketchip.system.TinyConfig`），**不是** ChipYard 生成的 SV 文件（Yosys 不支持 SystemVerilog）。
+`generate_rtl` 完成后会自动执行 firtool 后处理，将 ChipYard 生成的 `.fir` 重新编译为可综合纯 Verilog，输出到：
 
-旧版 SRAM 黑盒与映射方案：
+```
+persist/rtl_output/chipyard.TestHarness.<Config>/verilog_synth/
+```
+
+后处理流程：
+1. firtool 加 `noAlwaysComb,disallowLocalVariables` 等 lowering options，消除 `always_ff`/`always_comb` 等 SV 语法
+2. 自动删除验证/总线外设模块（TLMonitor、HellaPeekingArbiter、TLError、TLAtomicAutomata、TLROM、ScratchpadSlavePort），这些模块含 Yosys 不支持的 packed array 且不在综合目标内
+3. 生成 `filelist.f`，供 `config.mk` 的 `VERILOG_FILES` 直接引用
+
+**ORFS 综合使用 ChipYard 生成的 RTL**（`verilog_synth/filelist.f`），不再依赖 ORFS 内置旧版 rocket-chip Verilog。
+
+SRAM 黑盒由 `read_mems_conf` 从 `*.mems.conf` 解析，映射方案（以 TinyRocketConfig 为例）：
 
 | 模块名 | 规格 | 映射宏 |
 |--------|------|--------|
-| `data_arrays_0_ext` | 64×32, masked | `sram22_64x32m4w8` |
-| `tag_array_ext` | 4×25, rw | flop（太小，无合适宏） |
-| `data_arrays_0_0_ext` | 64×32, rw | `sram22_64x32m4w8`（wmask 固定 4'hF） |
-| `mem_ext` | 1024×32, 1R+1W | `sram22_1024x32m8w8`（写优先仲裁） |
+| `data_arrays_0_combMem` | 64×32, masked | `sram22_64x32m4w8` |
+| `mem_combMem` | 1024×32, rw | `sram22_1024x32m8w8` |
+
+> SRAM wrapper 需根据 `read_mems_conf` 的实际输出更新，不同 ChipYard 配置的黑盒名称和规格不同。
 
 ---
 

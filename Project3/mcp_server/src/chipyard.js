@@ -14,6 +14,26 @@ const PROJECT_ROOT   = path.resolve(new URL("../../", import.meta.url).pathname)
 const PERSIST_DIR    = path.join(PROJECT_ROOT, "persist");
 const RTL_OUTPUT_DIR = path.join(PERSIST_DIR, "rtl_output");
 
+// firtool lowering options：去除 always_ff/always_comb、局部变量、packed array
+// noAlwaysComb 同时覆盖 always_ff（CIRCT 1.x 行为）
+const FIRTOOL_LOWERING_OPTIONS = [
+  "emittedLineLength=2048",
+  "noAlwaysComb",
+  "disallowLocalVariables",
+  "disallowPackedArrays",
+  "verifLabels",
+].join(",");
+
+// 综合时需要排除的验证/监控模块前缀（不属于设计逻辑，含 packed array 或纯断言）
+const EXCLUDE_MODULE_PREFIXES = [
+  "TLMonitor",           // TileLink 总线协议监控器（含 $fatal/$error + packed array）
+  "HellaPeekingArbiter", // 仲裁器验证逻辑（Arbiters.scala:43 packed array 来源）
+  "TLError",             // TileLink 错误响应器（含 wire[N][M]='，不在 RocketTile 综合范围内）
+  "TLAtomicAutomata",    // TileLink 原子操作自动机（同上）
+  "TLROM",               // TileLink ROM 外设（同上）
+  "ScratchpadSlavePort", // DTIM scratchpad 接口（同上）
+];
+
 // conda 激活前缀，所有容器内命令都需要带上
 const CONDA_INIT = [
   `source ${CONDA_ENV}/etc/profile.d/conda.sh`,
@@ -75,21 +95,75 @@ server.tool(
     try {
       console.error(`[INFO] 开始生成 RTL，CONFIG=${config} ...`);
 
+      // ── 步骤 1：ChipYard make verilog ──────────────────────────────
       const makeCmd = [
         `cd ${CHIPYARD_DIR}/sims/verilator`,
         `make verilog CONFIG=${config}${extra_make_args ? " " + extra_make_args : ""}`,
-        // 将生成结果复制到 persist
         `mkdir -p /workspace/persist/rtl_output`,
         `cp -r generated-src/chipyard.TestHarness.${config} /workspace/persist/rtl_output/`,
       ].join(" && ");
 
       const cmd = `docker exec ${CONTAINER_NAME} bash -lc "${CONDA_INIT} && ${makeCmd}"`;
-      const output = execSync(cmd, { encoding: "utf-8", timeout: 1800000 }); // 30min
+      execSync(cmd, { encoding: "utf-8", timeout: 1800000 }); // 30min
+
+      // ── 步骤 2：firtool 后处理，生成可综合纯 Verilog ───────────────
+      // 输入：ChipYard 生成的 .fir 文件（FIRRTL IR，不含 SV 语法问题）
+      // 输出：persist/rtl_output/chipyard.TestHarness.<config>/verilog_synth/
+      const firFile = `/workspace/persist/rtl_output/chipyard.TestHarness.${config}/chipyard.TestHarness.${config}.fir`;
+      const synthOutDir = `/workspace/persist/rtl_output/chipyard.TestHarness.${config}/verilog_synth`;
+
+      const firtoolCmd = [
+        `mkdir -p ${synthOutDir}`,
+        // 用 firtool 重新编译 .fir，加 lowering options 生成纯 Verilog
+        `firtool ${firFile}`,
+        `  --format=fir`,
+        `  --lowering-options=${FIRTOOL_LOWERING_OPTIONS}`,
+        `  --strip-debug-info`,
+        `  --split-verilog`,
+        `  -o ${synthOutDir}`,
+        // 删除验证/监控模块（含 packed array 或纯断言，不属于综合目标）
+        ...EXCLUDE_MODULE_PREFIXES.map(
+          prefix => `find ${synthOutDir} -name "${prefix}*.sv" -delete`
+        ),
+        // 统计结果
+        `echo "SYNTH_FILES=$(ls ${synthOutDir}/*.sv 2>/dev/null | wc -l)"`,
+      ].join(" && ");
+
+      const firtoolOutput = execSync(
+        `docker exec ${CONTAINER_NAME} bash -lc "${CONDA_INIT} && ${firtoolCmd}"`,
+        { encoding: "utf-8", timeout: 300000 } // 5min
+      );
+
+      // ── 步骤 3：生成 filelist.f（供 ORFS VERILOG_FILES 使用）────────
+      const filelistCmd = [
+        `ls ${synthOutDir}/*.sv > ${synthOutDir}/filelist.f`,
+        `echo "FILELIST=$(wc -l < ${synthOutDir}/filelist.f) files"`,
+      ].join(" && ");
+
+      execSync(
+        `docker exec ${CONTAINER_NAME} bash -c "${filelistCmd}"`,
+        { encoding: "utf-8" }
+      );
+
+      const synthFilesMatch = firtoolOutput.match(/SYNTH_FILES=(\d+)/);
+      const synthCount = synthFilesMatch ? synthFilesMatch[1] : "?";
 
       return {
         content: [{
           type: "text",
-          text: `RTL 生成成功！CONFIG=${config}\n输出目录: persist/rtl_output/chipyard.TestHarness.${config}/\n\n日志摘要:\n${output.slice(-1000)}`,
+          text: [
+            `RTL 生成成功！CONFIG=${config}`,
+            ``,
+            `原始 SV 输出: persist/rtl_output/chipyard.TestHarness.${config}/gen-collateral/`,
+            `可综合 Verilog: persist/rtl_output/chipyard.TestHarness.${config}/verilog_synth/  (${synthCount} 个文件)`,
+            `文件列表: persist/rtl_output/chipyard.TestHarness.${config}/verilog_synth/filelist.f`,
+            ``,
+            `lowering options: ${FIRTOOL_LOWERING_OPTIONS}`,
+            `已排除验证模块: ${EXCLUDE_MODULE_PREFIXES.join(", ")}`,
+            ``,
+            `后续在 config.mk 中设置:`,
+            `  export VERILOG_FILES = \$(shell cat /workspace/persist/rtl_output/chipyard.TestHarness.${config}/verilog_synth/filelist.f)`,
+          ].join("\n"),
         }],
       };
     } catch (error) {
