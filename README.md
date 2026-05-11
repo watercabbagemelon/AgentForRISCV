@@ -32,3 +32,21 @@ claude code自行编写testbench
 每个阶段给出相应的报告，迭代测试
 
 最后返回GDS文件
+
+## 第三阶段
+
+**Agent串联：**
+
+输入spec自然语言
+
+使用sky130工艺库
+
+Agent根据需求调用ChipYard docker生成sv
+
+claude code将sv转化成v，完成SRAM宏单元映射
+
+调用OpenROAD docker完成后端综合布局布线
+
+最后返回报告和GDS版图
+
+根据用户需求调参迭代
