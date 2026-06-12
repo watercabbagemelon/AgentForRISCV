@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "orfs-agent": {
+      "command": "node",
+      "args": ["./mcp_server/src/index.js"]
+    },
+    "chipyard-automation": {
+      "command": "node",
+      "args": ["./mcp_server/src/chipyard.js"]
+    }
+  }
+}

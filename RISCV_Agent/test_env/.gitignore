@@ -1,0 +1,11 @@
+# Verilator build output (176 MB)
+build/
+
+# Test run logs
+logs/
+
+# External prebuilt libraries (from Spike + DRAMSim2)
+lib/
+
+# External headers (from Spike + DRAMSim2)
+include/

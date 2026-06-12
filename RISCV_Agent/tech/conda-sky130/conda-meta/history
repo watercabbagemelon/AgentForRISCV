@@ -1,0 +1,5 @@
+==> 2026-05-09 08:15:38 <==
+# cmd: /root/miniforge3/bin/conda create -c litex-hub --prefix /root/conda-sky130 open_pdks.sky130a=1.0.399_0_g63dbde9
+# conda version: 24.9.2
++litex-hub/noarch::open_pdks.sky130a-1.0.399_0_g63dbde9-20230225_164303
+# update specs: ['open_pdks.sky130a=1.0.399_0_g63dbde9']

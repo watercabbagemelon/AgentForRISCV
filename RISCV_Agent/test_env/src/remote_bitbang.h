@@ -1,0 +1,1 @@
+/home/cabbage/workspace/EDA_system/AgentForRISCV/RISCV_Agent/vsrc/rtl_output/chipyard.TestHarness.TinyRocketConfig/gen-collateral/remote_bitbang.h

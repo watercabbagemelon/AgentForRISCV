@@ -27,3 +27,4 @@ class VerilatedVcdFILE : public VerilatedVcdFile {
 };
 
 #endif
+#include "VTestHarness.h"
