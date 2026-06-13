@@ -3,7 +3,7 @@ node_modules/
 
 # ─── 第三方 PDK 宏库（543 MB，独立下载，不应混入源码仓库）──
 # 下载来源：OpenROAD-flow-scripts 或 skywater-pdk 官方
-RISCV_Agent/tech/sram22_sky130_macros/
+RISCV_Agent/tech/sram22_sky130_macros/**/
 
 # ─── ORFS 后端中间产物（.odb 文件体积大，可重跑生成）────
 RISCV_Agent/backend/**/

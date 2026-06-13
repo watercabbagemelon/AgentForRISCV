@@ -1,0 +1,15 @@
+*/lef/
+*/lib/
+*/drc/
+*/lvs/
+*/pex/
+*/sim/
+*/*.bin
+gen_config.py
+gen.sh
+.DS_Store
+/logs/
+*/*.lef.old
+sram22.lvs.spice
+*.gds
+tmp/
