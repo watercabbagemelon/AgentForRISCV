@@ -1,0 +1,17 @@
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/ClockDividerN.sv
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/EICG_wrapper.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/IOCell.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimDRAM.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimDRAM.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimJTAG.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimJTAG.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimSerial.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimSerial.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimUART.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/SimUART.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/mm.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/mm_dramsim2.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/plusarg_reader.v
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/remote_bitbang.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/testchip_tsi.cc
+/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/gen-collateral/uart.cc

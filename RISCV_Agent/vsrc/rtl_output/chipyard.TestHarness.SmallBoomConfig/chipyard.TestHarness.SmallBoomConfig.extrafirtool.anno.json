@@ -1,0 +1,14 @@
+[
+	{
+		"class":"sifive.enterprise.firrtl.MarkDUTAnnotation",
+		"target":"~TestHarness|ChipTop"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
+		"filename": "/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/model_module_hierarchy.json"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
+		"filename": "/workspace/chipyard/sims/verilator/generated-src/chipyard.TestHarness.SmallBoomConfig/top_module_hierarchy.json"
+	}
+]
